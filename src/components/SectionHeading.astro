@@ -1,0 +1,61 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  blurb: string;
+}
+
+const { kicker, title, blurb } = Astro.props;
+---
+
+<div class="heading">
+  <div class="heading__text">
+    <span class="heading__kicker pixel">{kicker}</span>
+    <h2>{title}</h2>
+  </div>
+  <p class="heading__blurb">{blurb}</p>
+</div>
+
+<style>
+  .heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px 32px;
+  }
+
+  .heading__text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .heading__kicker {
+    font-size: 12px;
+    color: var(--hot);
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-shadow: 5px 5px 0 #2a36a8;
+  }
+
+  .heading__blurb {
+    max-width: 360px;
+    text-align: right;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .heading__blurb {
+      text-align: left;
+    }
+  }
+</style>

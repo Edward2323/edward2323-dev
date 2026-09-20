@@ -1,0 +1,150 @@
+---
+import PlayerCard from './PlayerCard.astro';
+import { site } from '../data/site';
+
+// Suelo en perspectiva: las líneas convergen en un punto de fuga (720, 0).
+// Se calculan aquí para no escribir 25 <line> a mano.
+const W = 1440;
+const H = 200;
+const horizontals = [1, ...Array.from({ length: 8 }, (_, i) => Math.min(H * ((i + 1) / 8) ** 2, H - 1))];
+const verticals = Array.from({ length: 17 }, (_, i) => W / 2 + (i - 8) * 130);
+---
+
+<section id="inicio" class="hero">
+  <svg class="hero__floor px" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+    <g>
+      {horizontals.map((y) => <line x1="0" y1={y} x2={W} y2={y} />)}
+      {verticals.map((x) => <line x1={W / 2} y1="0" x2={x} y2={H} />)}
+    </g>
+  </svg>
+
+  <div class="wrap hero__inner">
+    <div class="hero__copy">
+      <div class="hero__kicker blink">
+        <span class="play" aria-hidden="true"></span>
+        <span class="pixel">PRESS START</span>
+      </div>
+
+      <h1>{site.name}</h1>
+      <p class="hero__role">{site.role}</p>
+      <p class="hero__bio">{site.bio}</p>
+
+      <div class="hero__cta">
+        <a class="btn btn--lg" href="#proyectos">
+          <span class="play" aria-hidden="true"></span>
+          VER PROYECTOS
+        </a>
+        <a class="btn btn--lg btn--ghost" href="#redes">CONECTAR</a>
+      </div>
+    </div>
+
+    <PlayerCard />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 72px 260px;
+  }
+
+  .hero__floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+  }
+
+  .hero__floor g {
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    opacity: 0.4;
+  }
+
+  .hero__floor line {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero__inner {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 64px;
+  }
+
+  .hero__copy {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .hero__kicker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: var(--hot);
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: clamp(72px, 12.2vw, 176px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    text-shadow: 8px 8px 0 #2a36a8;
+  }
+
+  .hero__role {
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 28px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hero__bio {
+    max-width: 600px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    margin-top: 14px;
+  }
+
+  /* El personaje baja un poco para alinearse con el título */
+  .hero__inner > :global(.player) {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 1080px) {
+    .hero {
+      padding-block: 48px 220px;
+    }
+
+    .hero__inner {
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .hero__inner > :global(.player) {
+      margin-top: 0;
+    }
+
+    h1 {
+      text-shadow: 5px 5px 0 #2a36a8;
+    }
+  }
+</style>

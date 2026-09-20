@@ -1,0 +1,121 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { socials } from '../data/site';
+---
+
+<section id="redes" class="socials">
+  <div class="wrap">
+    <SectionHeading
+      kicker="03 // REDES"
+      title="Modo multijugador"
+      blurb="¿Buscas jugador 2? Conecta otro mando y encuéntrame aquí."
+    />
+
+    <ul class="socials__grid">
+      {
+        socials.map((social) => {
+          const external = social.href.startsWith('http');
+          return (
+            <li class:list={['social', 'panel', `social--${social.tone}`]}>
+              <div class="social__badge pixel" aria-hidden="true">
+                {social.badge}
+              </div>
+              <div class="social__info">
+                <span class="social__port pixel">{social.port}</span>
+                <span class="social__name">{social.name}</span>
+                <span class="social__handle">{social.handle}</span>
+              </div>
+              <a
+                class="btn"
+                href={social.href}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
+              >
+                <span class="play" aria-hidden="true" />
+                CONECTAR
+                <span class="sr-only"> con {social.name}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .socials {
+    padding-block: 72px;
+  }
+
+  .socials__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 32px;
+    margin-top: 44px;
+  }
+
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    --btn-bg: var(--tone);
+    --btn-fg: var(--tone-fg);
+  }
+
+  .social--accent {
+    --tone: var(--accent);
+    --tone-fg: #04122a;
+  }
+
+  .social--hot {
+    --tone: var(--hot);
+    --tone-fg: #1a1200;
+  }
+
+  .social__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    background: var(--tone);
+    color: var(--tone-fg);
+    font-size: 28px;
+    box-shadow:
+      inset 4px 4px 0 rgba(255, 255, 255, 0.4),
+      inset -4px -4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .social__info {
+    flex: 1 1 200px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .social__port {
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .social__name {
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1;
+  }
+
+  .social__handle {
+    font-size: 16px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+
+  .social .btn {
+    flex-shrink: 0;
+  }
+</style>

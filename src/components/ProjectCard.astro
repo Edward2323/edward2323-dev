@@ -1,0 +1,128 @@
+---
+import ProjectCover from './ProjectCover.astro';
+import type { Project } from '../data/site';
+
+interface Props {
+  project: Project;
+}
+
+const { stage, title, description, tags, cover, href, locked } = Astro.props.project;
+const external = href?.startsWith('http');
+---
+
+<article class:list={['card', 'panel', { 'card--locked': locked }]}>
+  <div class="card__cover">
+    <span class="card__stage pixel">{stage}</span>
+    <ProjectCover kind={cover} />
+  </div>
+
+  <div class="card__body">
+    <h3>{title}</h3>
+    <p class="card__desc">{description}</p>
+    <ul class="card__tags">
+      {tags.map((tag) => <li class="tag">{tag.toUpperCase()}</li>)}
+    </ul>
+
+    {
+      locked ? (
+        <span class="btn btn--locked" aria-disabled="true">
+          BLOQUEADO
+        </span>
+      ) : (
+        <a
+          class="btn"
+          href={href}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+        >
+          <span class="play" aria-hidden="true" />
+          VER PROYECTO
+          <span class="sr-only">: {title}</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card__cover {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 220px;
+    background: var(--bg);
+    border-bottom: 3px solid var(--edge-dark);
+  }
+
+  .card__stage {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 10px;
+    background: var(--hot);
+    color: #1a1200;
+    font-size: 10px;
+  }
+
+  .card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.1;
+  }
+
+  .card__desc {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .card__body :global(.btn) {
+    margin-top: auto;
+  }
+
+  /* Nivel bloqueado: todo apagado */
+  .card--locked {
+    background: var(--panel-dim);
+    border-color: #3c4590 var(--edge-dark) var(--edge-dark) #3c4590;
+    box-shadow: 8px 8px 0 #1b2560;
+  }
+
+  .card--locked .card__cover {
+    background: repeating-linear-gradient(45deg, #0a0d24 0 14px, #0f1540 14px 28px);
+  }
+
+  .card--locked .card__stage {
+    background: #4a5390;
+    color: var(--text);
+  }
+
+  .card--locked h3,
+  .card--locked .card__desc {
+    color: var(--dim);
+  }
+
+  .card--locked .tag {
+    border-color: var(--edge-glow);
+    color: var(--dim);
+  }
+</style>

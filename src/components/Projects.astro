@@ -1,0 +1,47 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { projects } from '../data/site';
+---
+
+<section id="proyectos" class="projects">
+  <div class="wrap">
+    <SectionHeading
+      kicker="02 // PROYECTOS"
+      title="Selecciona tu nivel"
+      blurb="Cada proyecto es un nivel. Elige uno para ver de qué trata."
+    />
+
+    <div class="projects__grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+
+    <p class="projects__hint pixel" aria-hidden="true">
+      <span>[A] JUGAR</span>
+      <span>[B] VOLVER</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding-block: 72px 56px;
+    background: var(--bg-band);
+    border-block: 4px solid var(--edge-glow);
+  }
+
+  .projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .projects__hint {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    font-size: 11px;
+    color: var(--dim);
+  }
+</style>
