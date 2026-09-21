@@ -21,24 +21,9 @@ export type Project = {
   pending?: boolean;
 };
 
+// Por ahora solo hay un marcador. Para añadir un proyecto real, copia este bloque,
+// quita `pending`, y elige una portada: 'phone', 'browser' o 'placeholder'.
 export const projects: Project[] = [
-  {
-    title: 'Calculate Desserts',
-    meta: 'Flutter · Dart',
-    description: 'Aplicación móvil hecha con Flutter para calcular el precio de postres.',
-    tags: ['Flutter', 'Dart'],
-    cover: 'phone',
-    // TODO: reemplazar por el enlace real del repositorio o demo
-    href: '#',
-  },
-  {
-    title: 'Portafolio Retro',
-    meta: 'Astro · Web',
-    description: 'Este sitio: contenido estático con Astro y animaciones solo donde hacen falta.',
-    tags: ['Astro', 'HTML', 'CSS'],
-    cover: 'browser',
-    href: 'https://github.com/Edward2323/edward2323-dev',
-  },
   {
     title: 'Próximo proyecto',
     meta: 'Por definir',
@@ -68,9 +53,8 @@ export const socials: Social[] = [
   {
     name: 'LinkedIn',
     badge: 'in',
-    // TODO: reemplazar por tu usuario y URL reales de LinkedIn
-    handle: 'linkedin.com/in/[tu-usuario]',
-    href: '#',
+    handle: 'linkedin.com/in/edward-cabrera-carvajal-72062a28a',
+    href: 'https://www.linkedin.com/in/edward-cabrera-carvajal-72062a28a/',
     tone: 'warm',
   },
 ];

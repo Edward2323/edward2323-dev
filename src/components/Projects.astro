@@ -9,7 +9,7 @@ import { projects } from '../data/site';
     <SectionHeading
       kicker="02 — Trabajos seleccionados"
       title="Proyectos"
-      blurb="Una selección de lo que he construido."
+      blurb="Aquí publicaré mis proyectos a medida que los termine."
     />
 
     <div class="projects__grid">
@@ -26,7 +26,8 @@ import { projects } from '../data/site';
 
   .projects__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    /* auto-fill mantiene el ancho de las tarjetas aunque haya una sola */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
     gap: 32px;
     margin-top: 48px;
   }
