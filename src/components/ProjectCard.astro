@@ -1,42 +1,48 @@
 ---
+import ArrowIcon from './ArrowIcon.astro';
 import ProjectCover from './ProjectCover.astro';
 import type { Project } from '../data/site';
 
 interface Props {
   project: Project;
+  index: number;
 }
 
-const { stage, title, description, tags, cover, href, locked } = Astro.props.project;
+const { project, index } = Astro.props;
+const { title, meta, description, tags, cover, href, pending } = project;
+
+const number = String(index + 1).padStart(2, '0');
 const external = href?.startsWith('http');
 ---
 
-<article class:list={['card', 'panel', { 'card--locked': locked }]}>
-  <div class="card__cover">
-    <span class="card__stage pixel">{stage}</span>
-    <ProjectCover kind={cover} />
-  </div>
+<article class:list={['card', 'frame', { 'frame--muted': pending }]}>
+  <div class="frame__body card__body">
+    <div class="card__meta">
+      <span>Proyecto {number}</span>
+      <span>{meta}</span>
+    </div>
 
-  <div class="card__body">
+    <ProjectCover kind={cover} />
+
     <h3>{title}</h3>
     <p class="card__desc">{description}</p>
+
     <ul class="card__tags">
-      {tags.map((tag) => <li class="tag">{tag.toUpperCase()}</li>)}
+      {tags.map((tag) => <li class:list={['tag', { 'tag--dim': pending }]}>{tag}</li>)}
     </ul>
 
     {
-      locked ? (
-        <span class="btn btn--locked" aria-disabled="true">
-          BLOQUEADO
-        </span>
+      pending ? (
+        <span class="card__link card__link--dim">Próximamente</span>
       ) : (
         <a
-          class="btn"
+          class="card__link"
           href={href}
           target={external ? '_blank' : undefined}
           rel={external ? 'noopener noreferrer' : undefined}
         >
-          <span class="play" aria-hidden="true" />
-          VER PROYECTO
+          Ver proyecto
+          <ArrowIcon />
           <span class="sr-only">: {title}</span>
         </a>
       )
@@ -50,44 +56,39 @@ const external = href?.startsWith('http');
     flex-direction: column;
   }
 
-  .card__cover {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 220px;
-    background: var(--bg);
-    border-bottom: 3px solid var(--edge-dark);
-  }
-
-  .card__stage {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 6px 10px;
-    background: var(--hot);
-    color: #1a1200;
-    font-size: 10px;
-  }
-
   .card__body {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
     padding: 24px;
   }
 
+  .card__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
   h3 {
+    font-family: var(--font-display);
     font-weight: 700;
-    font-size: 30px;
-    line-height: 1.1;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-strong);
   }
 
   .card__desc {
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-card);
   }
 
   .card__tags {
@@ -96,33 +97,35 @@ const external = href?.startsWith('http');
     gap: 8px;
   }
 
-  .card__body :global(.btn) {
+  .tag--dim {
+    border-color: #4c6674;
+    color: var(--text-off);
+  }
+
+  .card__link {
+    align-self: flex-start;
     margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--warm);
   }
 
-  /* Nivel bloqueado: todo apagado */
-  .card--locked {
-    background: var(--panel-dim);
-    border-color: #3c4590 var(--edge-dark) var(--edge-dark) #3c4590;
-    box-shadow: 8px 8px 0 #1b2560;
+  .card__link--dim {
+    color: var(--text-off);
   }
 
-  .card--locked .card__cover {
-    background: repeating-linear-gradient(45deg, #0a0d24 0 14px, #0f1540 14px 28px);
+  /* Estado apagado del proyecto pendiente */
+  .frame--muted h3 {
+    color: var(--text-soft);
   }
 
-  .card--locked .card__stage {
-    background: #4a5390;
-    color: var(--text);
-  }
-
-  .card--locked h3,
-  .card--locked .card__desc {
-    color: var(--dim);
-  }
-
-  .card--locked .tag {
-    border-color: var(--edge-glow);
-    color: var(--dim);
+  .frame--muted .card__desc {
+    color: var(--text-off);
   }
 </style>

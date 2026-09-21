@@ -1,0 +1,99 @@
+---
+// Ciudad nocturna en tres capas de siluetas (lejos, media, cerca).
+// Las coordenadas están en un lienzo de 1440x420 que se recorta según el ancho.
+type Tone = 'off' | 'warm' | 'accent';
+
+const far =
+  'M0 420 V300 H50 V270 H110 V300 H160 V240 H230 V285 H290 V255 H350 V290 H410 V220 H470 V270 H540 V200 H600 V255 H660 V180 H730 V240 H800 V150 H860 V220 H930 V120 H1000 V200 H1070 V140 H1140 V210 H1210 V100 H1280 V190 H1350 V150 H1440 V420 Z';
+
+const mid =
+  'M0 420 V340 H40 V310 H100 V345 H170 V300 H240 V335 H300 V290 H370 V330 H440 V280 H500 V320 H570 V270 H640 V310 H700 V260 H760 V290 H800 V220 H830 V170 H860 V120 H880 V70 H890 V30 H910 V70 H920 V120 H940 V170 H970 V220 H1000 V280 H1060 V240 H1120 V300 H1180 V250 H1250 V310 H1310 V260 H1380 V300 H1440 V280 V420 Z';
+
+const near =
+  'M0 420 V370 H60 V340 H120 V372 H190 V330 H250 V365 H330 V320 H400 V360 H470 V335 H540 V368 H610 V310 H680 V350 H760 V300 H830 V345 H900 V290 H960 V330 H1040 V270 H1100 V320 H1170 V250 H1240 V300 H1300 V240 H1330 V60 H1338 V240 H1380 V280 H1440 V420 Z';
+
+// Ventanas de la torre central: [x, y, tono]
+const towerWindows: [number, number, Tone][] = [
+  [812, 236, 'off'], [832, 236, 'off'], [852, 236, 'warm'], [872, 236, 'off'], [892, 236, 'off'],
+  [912, 236, 'accent'], [932, 236, 'off'], [952, 236, 'off'], [972, 236, 'off'],
+  [812, 254, 'off'], [852, 254, 'off'], [892, 254, 'warm'], [932, 254, 'accent'], [972, 254, 'off'],
+  [872, 140, 'off'], [892, 140, 'warm'], [912, 140, 'off'], [872, 156, 'off'], [912, 156, 'off'],
+  [895, 90, 'warm'], [906, 90, 'off'],
+];
+
+// Carteles verticales de neón: [x, y, alto, tono]
+const signs: [number, number, number, Tone][] = [
+  [340, 332, 70, 'warm'],
+  [622, 322, 60, 'accent'],
+  [1182, 262, 84, 'warm'],
+  [912, 302, 46, 'accent'],
+];
+
+// Luces a nivel de calle: [x, y, tono]
+const street: [number, number, Tone][] = [
+  [70, 386, 'warm'], [150, 392, 'accent'], [260, 384, 'warm'], [500, 390, 'accent'],
+  [720, 386, 'warm'], [1010, 392, 'accent'], [1120, 386, 'warm'], [1260, 392, 'accent'],
+];
+---
+
+<svg class="city" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <path d={far} class="far"></path>
+  <path d={mid} class="mid"></path>
+  {towerWindows.map(([x, y, tone]) => <rect x={x} y={y} width="6" height="8" class={`win win--${tone}`}></rect>)}
+  <path d={near} class="near"></path>
+  {signs.map(([x, y, h, tone]) => <rect x={x} y={y} width="8" height={h} class={`sign sign--${tone}`}></rect>)}
+  {street.map(([x, y, tone]) => <rect x={x} y={y} width="10" height="6" class={`lamp lamp--${tone}`}></rect>)}
+  <rect x="1326" y="60" width="16" height="5" class="sign sign--warm"></rect>
+</svg>
+
+<style>
+  .city {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 420px;
+  }
+
+  .far {
+    fill: #0d2b39;
+    opacity: 0.9;
+  }
+
+  .mid {
+    fill: #081722;
+  }
+
+  .near {
+    fill: #03060b;
+  }
+
+  .win--off {
+    fill: #12384a;
+  }
+
+  .win--warm,
+  .lamp--warm,
+  .sign--warm {
+    fill: var(--warm);
+  }
+
+  .win--accent,
+  .lamp--accent,
+  .sign--accent {
+    fill: var(--accent);
+  }
+
+  .lamp {
+    opacity: 0.85;
+  }
+
+  .sign--warm {
+    filter: drop-shadow(0 0 6px var(--warm));
+  }
+
+  .sign--accent {
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+</style>

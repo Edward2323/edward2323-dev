@@ -1,0 +1,92 @@
+---
+import { technologies } from '../data/site';
+---
+
+<aside class="tech frame" aria-label="Tecnologías">
+  <div class="frame__body tech__body">
+    <div class="tech__head">
+      <h2 class="tech__title">Tecnologías</h2>
+      <span class="tech__dot" aria-hidden="true"></span>
+    </div>
+
+    <ol class="tech__list">
+      {
+        technologies.map((name, i) => (
+          <li>
+            <span class="tech__name">{name}</span>
+            <span class="tech__idx">{String(i + 1).padStart(2, '0')}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</aside>
+
+<style>
+  .tech {
+    --cut: 20px;
+    width: 400px;
+    flex-shrink: 0;
+  }
+
+  .tech__body {
+    padding: 26px 28px 20px;
+    background: rgba(6, 14, 22, 0.88);
+  }
+
+  .tech__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(39, 225, 255, 0.3);
+  }
+
+  .tech__title {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .tech__dot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: var(--warm);
+    box-shadow: 0 0 8px var(--warm);
+  }
+
+  .tech__list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .tech__list li:last-child {
+    border-bottom: 0;
+  }
+
+  .tech__name {
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--text);
+  }
+
+  .tech__idx {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 1080px) {
+    .tech {
+      width: 100%;
+      max-width: 480px;
+    }
+  }
+</style>

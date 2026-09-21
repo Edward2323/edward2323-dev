@@ -1,39 +1,39 @@
 ---
+import ArrowIcon from './ArrowIcon.astro';
 import SectionHeading from './SectionHeading.astro';
 import { socials } from '../data/site';
 ---
 
 <section id="redes" class="socials">
   <div class="wrap">
-    <SectionHeading
-      kicker="03 // REDES"
-      title="Modo multijugador"
-      blurb="¿Buscas jugador 2? Conecta otro mando y encuéntrame aquí."
-    />
+    <SectionHeading kicker="03 — Contacto" title="Redes" />
 
     <ul class="socials__grid">
       {
         socials.map((social) => {
           const external = social.href.startsWith('http');
           return (
-            <li class:list={['social', 'panel', `social--${social.tone}`]}>
-              <div class="social__badge pixel" aria-hidden="true">
-                {social.badge}
-              </div>
-              <div class="social__info">
-                <span class="social__port pixel">{social.port}</span>
-                <span class="social__name">{social.name}</span>
-                <span class="social__handle">{social.handle}</span>
-              </div>
+            <li>
               <a
-                class="btn"
+                class="frame social"
                 href={social.href}
                 target={external ? '_blank' : undefined}
                 rel={external ? 'noopener noreferrer' : undefined}
               >
-                <span class="play" aria-hidden="true" />
-                CONECTAR
-                <span class="sr-only"> con {social.name}</span>
+                <div class="frame__body social__body">
+                  <div class:list={['social__badge', `social__badge--${social.tone}`]} aria-hidden="true">
+                    {social.badge}
+                  </div>
+                  <div class="social__info">
+                    <span class="social__name">{social.name}</span>
+                    <span class="social__handle">{social.handle}</span>
+                  </div>
+                  <span class="social__cta">
+                    Abrir perfil
+                    <ArrowIcon />
+                    <span class="sr-only"> de {social.name}</span>
+                  </span>
+                </div>
               </a>
             </li>
           );
@@ -45,77 +45,100 @@ import { socials } from '../data/site';
 
 <style>
   .socials {
-    padding-block: 72px;
+    padding-block: 88px;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
   }
 
   .socials__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
     gap: 32px;
-    margin-top: 44px;
+    margin-top: 48px;
   }
 
   .social {
+    color: var(--text);
+  }
+
+  .social__body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 24px;
-    padding: 24px;
-    --btn-bg: var(--tone);
-    --btn-fg: var(--tone-fg);
-  }
-
-  .social--accent {
-    --tone: var(--accent);
-    --tone-fg: #04122a;
-  }
-
-  .social--hot {
-    --tone: var(--hot);
-    --tone-fg: #1a1200;
+    gap: 20px 24px;
+    min-height: 150px;
+    padding: 24px 32px;
   }
 
   .social__badge {
+    --cut: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 96px;
-    height: 96px;
-    background: var(--tone);
-    color: var(--tone-fg);
-    font-size: 28px;
-    box-shadow:
-      inset 4px 4px 0 rgba(255, 255, 255, 0.4),
-      inset -4px -4px 0 rgba(0, 0, 0, 0.25);
+    width: 84px;
+    height: 84px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+  }
+
+  .social__badge--accent {
+    background: var(--accent);
+  }
+
+  .social__badge--warm {
+    background: var(--warm);
   }
 
   .social__info {
-    flex: 1 1 200px;
+    flex: 1 1 180px;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-  }
-
-  .social__port {
-    font-size: 10px;
-    color: var(--dim);
+    gap: 6px;
   }
 
   .social__name {
+    font-family: var(--font-display);
     font-weight: 700;
-    font-size: 34px;
-    line-height: 1;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-strong);
   }
 
   .social__handle {
-    font-size: 16px;
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-soft);
     overflow-wrap: anywhere;
   }
 
-  .social .btn {
+  .social__cta {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--warm);
+  }
+
+  @media (max-width: 720px) {
+    .socials {
+      padding-block: 64px;
+    }
   }
 </style>

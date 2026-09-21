@@ -1,28 +1,19 @@
 ---
-import PlayerCard from './PlayerCard.astro';
+import City from './City.astro';
+import TechPanel from './TechPanel.astro';
 import { site } from '../data/site';
-
-// Suelo en perspectiva: las líneas convergen en un punto de fuga (720, 0).
-// Se calculan aquí para no escribir 25 <line> a mano.
-const W = 1440;
-const H = 200;
-const horizontals = [1, ...Array.from({ length: 8 }, (_, i) => Math.min(H * ((i + 1) / 8) ** 2, H - 1))];
-const verticals = Array.from({ length: 17 }, (_, i) => W / 2 + (i - 8) * 130);
 ---
 
 <section id="inicio" class="hero">
-  <svg class="hero__floor px" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
-    <g>
-      {horizontals.map((y) => <line x1="0" y1={y} x2={W} y2={y} />)}
-      {verticals.map((x) => <line x1={W / 2} y1="0" x2={x} y2={H} />)}
-    </g>
-  </svg>
+  <div class="hero__haze"></div>
+  <City />
+  <div class="hero__rain"></div>
 
   <div class="wrap hero__inner">
     <div class="hero__copy">
-      <div class="hero__kicker blink">
-        <span class="play" aria-hidden="true"></span>
-        <span class="pixel">PRESS START</span>
+      <div class="hero__kicker">
+        <span class="hero__rule"></span>
+        <span>Portafolio de proyectos</span>
       </div>
 
       <h1>{site.name}</h1>
@@ -30,15 +21,14 @@ const verticals = Array.from({ length: 17 }, (_, i) => W / 2 + (i - 8) * 130);
       <p class="hero__bio">{site.bio}</p>
 
       <div class="hero__cta">
-        <a class="btn btn--lg" href="#proyectos">
-          <span class="play" aria-hidden="true"></span>
-          VER PROYECTOS
+        <a class="btn btn--solid" href="#proyectos">Ver proyectos</a>
+        <a class="btn btn--outline" href="#redes">
+          <span class="btn__inner">Ver redes</span>
         </a>
-        <a class="btn btn--lg btn--ghost" href="#redes">CONECTAR</a>
       </div>
     </div>
 
-    <PlayerCard />
+    <TechPanel />
   </div>
 </section>
 
@@ -46,26 +36,41 @@ const verticals = Array.from({ length: 17 }, (_, i) => W / 2 + (i - 8) * 130);
   .hero {
     position: relative;
     overflow: hidden;
-    padding-block: 72px 260px;
+    background: linear-gradient(180deg, #04070d 0%, #08202d 45%, #123a44 62%, #3a2a25 78%, #06090f 100%);
   }
 
-  .hero__floor {
+  /* Neblina naranja en el horizonte, detrás de los edificios */
+  .hero__haze {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 200px;
+    left: 50%;
+    bottom: -20px;
+    width: 1400px;
+    height: 320px;
+    margin-left: -700px;
+    border-radius: 50%;
+    background: rgba(255, 122, 31, 0.5);
+    filter: blur(70px);
   }
 
-  .hero__floor g {
-    stroke: var(--accent);
-    stroke-width: 1.5;
-    opacity: 0.4;
-  }
-
-  .hero__floor line {
-    vector-effect: non-scaling-stroke;
+  .hero__rain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        100deg,
+        rgba(190, 230, 255, 0.09) 0,
+        rgba(190, 230, 255, 0.09) 1px,
+        transparent 1px,
+        transparent 22px
+      ),
+      repeating-linear-gradient(
+        100deg,
+        rgba(190, 230, 255, 0.05) 0,
+        rgba(190, 230, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 9px
+      );
   }
 
   .hero__inner {
@@ -73,78 +78,79 @@ const verticals = Array.from({ length: 17 }, (_, i) => W / 2 + (i - 8) * 130);
     display: flex;
     align-items: flex-start;
     gap: 64px;
+    padding-top: 96px;
+    padding-bottom: 348px;
   }
 
   .hero__copy {
     flex: 1;
     min-width: 0;
+    max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 20px;
   }
 
   .hero__kicker {
     display: flex;
     align-items: center;
     gap: 14px;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    color: var(--hot);
-  }
-
-  h1 {
-    font-weight: 700;
-    font-size: clamp(72px, 12.2vw, 176px);
-    line-height: 0.86;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    text-shadow: 8px 8px 0 #2a36a8;
-  }
-
-  .hero__role {
-    font-weight: 600;
-    font-size: clamp(20px, 2vw, 28px);
-    letter-spacing: 0.06em;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
     color: var(--accent);
   }
 
+  .hero__rule {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(44px, 7.8vw, 112px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-strong);
+    text-shadow:
+      0 0 14px rgba(39, 225, 255, 0.7),
+      0 0 44px rgba(39, 225, 255, 0.35);
+  }
+
+  .hero__role {
+    font-weight: 600;
+    font-size: clamp(18px, 1.8vw, 26px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm);
+  }
+
   .hero__bio {
     max-width: 600px;
-    font-size: 19px;
-    line-height: 1.55;
-    color: var(--muted);
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--text-body);
   }
 
   .hero__cta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     margin-top: 14px;
   }
 
-  /* El personaje baja un poco para alinearse con el título */
-  .hero__inner > :global(.player) {
-    margin-top: 24px;
-  }
-
   @media (max-width: 1080px) {
-    .hero {
-      padding-block: 48px 220px;
-    }
-
     .hero__inner {
       flex-direction: column;
-      gap: 48px;
-    }
-
-    .hero__inner > :global(.player) {
-      margin-top: 0;
-    }
-
-    h1 {
-      text-shadow: 5px 5px 0 #2a36a8;
+      gap: 40px;
+      padding-top: 56px;
+      padding-bottom: 300px;
     }
   }
 </style>

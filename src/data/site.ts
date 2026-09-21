@@ -4,62 +4,61 @@
 export const site = {
   name: 'Edward',
   role: 'Desarrollador · Flutter & Web',
-  playerClass: 'Desarrollador',
-  bio: 'Player 1 construyendo apps móviles y sitios web. Aquí está mi progreso: niveles completados, mi inventario y cómo unirte a mi partida.',
-  inventory: ['Flutter', 'Dart', 'Astro', 'HTML', 'CSS', 'JavaScript', 'Git'],
+  bio: 'Desarrollo aplicaciones móviles y sitios web. Aquí reúno mis proyectos, las tecnologías que utilizo y mis redes profesionales.',
 };
 
+export const technologies = ['Flutter', 'Dart', 'Astro', 'HTML', 'CSS', 'JavaScript', 'Git'];
+
 export type Project = {
-  stage: string;
   title: string;
+  /** Texto corto en la cabecera de la tarjeta, junto al número */
+  meta: string;
   description: string;
   tags: string[];
-  cover: 'calculator' | 'browser' | 'lock';
+  cover: 'phone' | 'browser' | 'placeholder';
   href?: string;
-  locked?: boolean;
+  /** Proyecto aún sin definir: se muestra apagado y sin enlace */
+  pending?: boolean;
 };
 
 export const projects: Project[] = [
   {
-    stage: 'STAGE 1-1',
     title: 'Calculate Desserts',
-    description: 'App móvil hecha con Flutter para calcular el precio de tus postres.',
+    meta: 'Flutter · Dart',
+    description: 'Aplicación móvil hecha con Flutter para calcular el precio de postres.',
     tags: ['Flutter', 'Dart'],
-    cover: 'calculator',
+    cover: 'phone',
     // TODO: reemplazar por el enlace real del repositorio o demo
     href: '#',
   },
   {
-    stage: 'STAGE 1-2',
     title: 'Portafolio Retro',
-    description:
-      'Este mismo sitio: contenido estático con Astro y animaciones solo donde hacen falta.',
+    meta: 'Astro · Web',
+    description: 'Este sitio: contenido estático con Astro y animaciones solo donde hacen falta.',
     tags: ['Astro', 'HTML', 'CSS'],
     cover: 'browser',
     href: 'https://github.com/Edward2323/edward2323-dev',
   },
   {
-    stage: 'STAGE 1-3',
-    title: 'Próximo nivel',
-    description: 'Bloqueado. Aquí irá tu siguiente proyecto.',
-    tags: ['???'],
-    cover: 'lock',
-    locked: true,
+    title: 'Próximo proyecto',
+    meta: 'Por definir',
+    description: 'Espacio reservado para el siguiente proyecto.',
+    tags: ['Por definir'],
+    cover: 'placeholder',
+    pending: true,
   },
 ];
 
 export type Social = {
-  port: string;
   name: string;
   badge: string;
   handle: string;
   href: string;
-  tone: 'accent' | 'hot';
+  tone: 'accent' | 'warm';
 };
 
 export const socials: Social[] = [
   {
-    port: 'PORT 1',
     name: 'GitHub',
     badge: 'GH',
     handle: 'github.com/Edward2323',
@@ -67,12 +66,11 @@ export const socials: Social[] = [
     tone: 'accent',
   },
   {
-    port: 'PORT 2',
     name: 'LinkedIn',
     badge: 'in',
     // TODO: reemplazar por tu usuario y URL reales de LinkedIn
     handle: 'linkedin.com/in/[tu-usuario]',
     href: '#',
-    tone: 'hot',
+    tone: 'warm',
   },
 ];
